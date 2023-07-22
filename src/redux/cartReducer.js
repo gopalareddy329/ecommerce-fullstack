@@ -9,12 +9,12 @@ const cartReducer = createSlice({
             state[0].counter +=parseFloat(action.payload.price)
         },
         updatetocart(state,action){
-            const {id} =action.payload
+            const {id} =(action.payload)
             const existingPost=state.find(item => item.id === id)
             if(existingPost){
-                existingPost.quantity +=1
-                state[0].counter +=parseFloat(existingPost.price)
-            
+                existingPost.quantity +=action.payload.change
+                console.log(existingPost.quantity)
+                state[0].counter +=parseFloat(existingPost.price * action.payload.change)
             }
            
         }

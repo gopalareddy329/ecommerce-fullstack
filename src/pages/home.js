@@ -19,7 +19,7 @@ const Home = ({products,check,setCheck}) => {
     
     const dispatch=useDispatch()
 
-    function updatecart({...item}){
+    function updatecart({...item},change){
 
         let isPresent= false
         cartred.forEach((items)=>{
@@ -29,7 +29,7 @@ const Home = ({products,check,setCheck}) => {
             }
 
         })
-        if (isPresent){dispatch(updatetocart({id:item.id}))}
+        if (isPresent){dispatch(updatetocart({id:item.id,change:change}))}
         else{dispatch(addtocart({...cartred,title:item.name,quantity:1,id:item.id,price:item.price,url:item.imgUrl}))}
         
        
@@ -44,22 +44,6 @@ const Home = ({products,check,setCheck}) => {
             }
             getdata()
     },[check,setCheck,products])
-    
-
-   
-    
-
-    
-    
-    // const images = [
-    //     { url: "" },
-    //     { url: "https://assets.myntassets.com/fl_progressive/h_960,q_80,w_720/v1/assets/images/1862801/2018/2/9/11518155061506-Roadster-Men-Maroon--Navy-Blue-Regular-Fit-Checked-Casual-Shirt-8861518155061131-1.jpg" },
-    //     { url: "https://assets.ajio.com/medias/sys_master/root/20230602/dH6Z/6479226442f9e729d70a5354/-473Wx593H-461119105-blue-MODEL.jpg" },
-    //     { url: "https://assets.ajio.com/medias/sys_master/root/20230602/dH6Z/6479226442f9e729d70a5354/-473Wx593H-461119105-blue-MODEL.jpg" },
-    //     { url: "https://assets.ajio.com/medias/sys_master/root/20230602/dH6Z/6479226442f9e729d70a5354/-473Wx593H-461119105-blue-MODEL.jpg" },
-    //     { url: "https://assets.ajio.com/medias/sys_master/root/20230602/dH6Z/6479226442f9e729d70a5354/-473Wx593H-461119105-blue-MODEL.jpg" },
-    //     { url: "https://assets.ajio.com/medias/sys_master/root/20230602/dH6Z/6479226442f9e729d70a5354/-473Wx593H-461119105-blue-MODEL.jpg" },
-    //   ];
     
 
     var slider1imgs=[
@@ -79,7 +63,9 @@ const Home = ({products,check,setCheck}) => {
     <div className='block poppins overflow-hidden' style={{backgroundColor:`${redutheam.theam}`}}>
       <div className='z-[10] bg-[#1F2937]'>
         <Navbar />
+        
       </div>
+     
 
       
 
@@ -133,6 +119,7 @@ const Home = ({products,check,setCheck}) => {
                 <p style={{color:`${redutheam.color}`}} ><TbShoe size={200} /></p>
                 <p className=' font-bold '>Shoes</p> 
                 
+                
             </div>
             <div  style={{boxShadow: '2px 2px 5px 0px rgba(0, 0, 0, 0.15)',backgroundColor:`${redutheam.color1}`}}  className={`w-[24%] max-md:w-[50%] h-[274px]  hover:text-white text-[#5FD788]  rounded-[20px] text-center flex flex-col items-center justify-center bg-${redutheam.color1}  hover:bg-[#5FD788]`}>
                 <p style={{color:`${redutheam.color}`}} ><TbDeviceMobile size={200} /></p>
@@ -144,7 +131,7 @@ const Home = ({products,check,setCheck}) => {
 
         
 
-        <div className='w-[100%]  relative my-[5%]    flex items-center justify-center'>
+        <div className='w-[100%]  relative my-[5%] mb-[10%]    flex items-center justify-center'>
             <div className='absolute top-[30px] left-[110px] rotate-[45deg]'>
                     <div className='w-[100px] absolute  h-[100px] left-[40px] top-[20px] rounded-full bg-[#5FD788]' />
                     <div className='w-[100px] absolute top-[100px]  h-[100px] rounded-full bg-[#5FD788]' />
@@ -169,18 +156,42 @@ const Home = ({products,check,setCheck}) => {
             </div>
         </div>
 
-        <div className='flex w-full justify-between  max-md:items-center mt-[20%] max-md:flex-col'>
-            <h1 style={{color:`${redutheam.color}`}}  className='max-md:w-[100%] self-center p-5  w-[20%] text-center  text-[55px] font-semibold'>Top Deals</h1>
-           <div className=' overflow-scroll max-md:w-[95%] '>
-            
+        <div className='flex w-full justify-between  max-md:items-center mt-[5%] max-md:flex-col'>    
+            <h1 style={{color:`${redutheam.color}`}}  className='max-md:w-[100%] self-center p-5  w-[20%] text-center  text-[50px] font-semibold'>Top Deals</h1>
+           <div className=' overflow-scroll md:max-w-[80%] max-md:w-[95%] '>
                 <div className='flex gap-5 mr-5'>
-                        {check &&  products.slice(0,10).map((items,key)=> <Product items={items} key={key}  updatecart={updatecart} theam={redutheam} />)}
+                        {check &&  products.slice(0,6).map((items,key)=> <Product items={items} key={key}  updatecart={updatecart} theam={redutheam} />)}
+                </div>
+            </div>
+        </div>
+
+
+        <div className='flex w-full justify-between  max-md:items-center mt-[5%] max-md:flex-col'>
+            <h1 style={{color:`${redutheam.color}`}}  className='max-md:w-[100%] self-center p-5  w-[25%] text-center  text-[50px] mr-2 font-semibold'>New arrivals</h1>
+           <div className=' overflow-scroll md:max-w-[80%] max-md:w-[95%] '>
+                <div className='flex gap-5 mr-5'>
+                        {check &&  products.slice(6,12).map((items,key)=> <Product items={items} key={key}  updatecart={updatecart} theam={redutheam} />)}
                         
                 </div>
-            
             </div>
-            
+        </div>
 
+        <div className='flex w-full justify-between  max-md:items-center mt-[5%] max-md:flex-col'>    
+            <h1 style={{color:`${redutheam.color}`}}  className='max-md:w-[100%] self-center p-5  w-[20%] text-center  text-[50px] font-semibold'>Exciting deals</h1>
+           <div className=' overflow-scroll md:max-w-[80%] max-md:w-[95%] '>
+                <div className='flex gap-5 mr-5'>
+                        {check &&  products.slice(12,18).map((items,key)=> <Product items={items} key={key}  updatecart={updatecart} theam={redutheam} />)}
+                </div>
+            </div>
+        </div>
+
+        <div className='flex w-full justify-between  max-md:items-center mt-[5%] max-md:flex-col'>    
+            <h1 style={{color:`${redutheam.color}`}}  className='max-md:w-[100%] self-center p-5  w-[20%] text-center  text-[50px] font-semibold'>Shop deals</h1>
+           <div className=' overflow-scroll md:max-w-[80%] max-md:w-[95%] '>
+                <div className='flex gap-5 mr-5'>
+                        {check &&  products.slice(18,25).map((items,key)=> <Product items={items} key={key}  updatecart={updatecart} theam={redutheam} />)}
+                </div>
+            </div>
         </div>
 
         <footer style={{color:`${redutheam.color}`,backgroundColor:`${redutheam.color1}`}} className={` bg-${redutheam.color1} max-md:flex-col max-md:gap-10 p-10 text-[#9CA3AF] flex mt-10 justify-between items-center`}>

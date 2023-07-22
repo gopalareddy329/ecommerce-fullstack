@@ -1,13 +1,19 @@
 
 import Navbar from '../components/navbar'
-import { useSelector } from 'react-redux'
+import { useSelector,useDispatch } from 'react-redux'
 import {MdDelete} from 'react-icons/md'
 import {FaRupeeSign} from 'react-icons/fa'
+import { NumericFormat } from 'react-number-format';
+import { addtocart ,updatetocart} from '../redux/cartReducer';
 
 const Cart = () => {
   const theam = useSelector(state => state.theam)
   const cartred= useSelector((state)=>state.cart)
-  
+  const dispatch=useDispatch()
+  const updatecart=(item,change)=>{
+    dispatch(updatetocart({id:item.id,change:change}))
+  }
+  var count=false
    
 
   return (
@@ -30,7 +36,7 @@ const Cart = () => {
                 
                     {cartred.map(function(items,key){
                       
-                      if(items.url !== undefined){
+                      if(items.url !== undefined && items.quantity >0){
                         
                         return(
                           <div key={key} className='flex gap-5  md:max-h-[180px] max-md:min-h-[100px] border-b-[1.5px]  border-gray-300'>
@@ -41,15 +47,15 @@ const Cart = () => {
 
                                 <div className='flex border-none  leading-[50px] mb-2  flex-col  w-[80%] max-md:w-[60%] '>
                                         <h1 className='truncate w-[90%] font-[400] text-[18px] max-md:text-[14px]'>{items.title}</h1>
-                                        <p className='flex items-center gap-2  max-md:text-[14px]'><span className='font-bold text-[20px] max-md:text-[16px] flex items-center'><FaRupeeSign />{items.price}</span>  <span className='line-through flex items-center'><FaRupeeSign />{items.price + 100}</span>   <span className='text-[#5FD788] font-[600]'>5% off</span></p>
+                                        <p className='flex items-center gap-2  max-md:text-[14px]'><span className='font-bold text-[20px] max-md:text-[16px] flex items-center'><FaRupeeSign /><NumericFormat value={items.price}  thousandSeparator={true} displayType="text"/></span>  <span className='line-through flex items-center'><FaRupeeSign />{items.price + 100}</span>   <span className='text-[#5FD788] font-[600]'>5% off</span></p>
               
                                         <div className='flex gap-5 max-md:justify-between items-center'>
                                             <div className='bg-[#e7e7e7] h-[30px] flex items-center rounded-[10px] text-black p-1/2'>
-                                                <button className='bg-transparent'>+</button>
+                                                <button onClick={()=>{updatecart(items,1)}} className='bg-transparent'>+</button>
                                                 <span>{items.quantity}</span>
-                                                <button className='bg-transparent'>-</button>
+                                                <button onClick={()=>{updatecart(items,-1)}} className='bg-transparent'>-</button>
                                             </div>
-                                            <button><MdDelete size={20}/></button>
+                                            <button onClick={()=>{updatecart(items,-items.quantity)}} ><MdDelete size={20}/></button>
                                         </div>
                                        
                                 </div>
@@ -59,12 +65,17 @@ const Cart = () => {
                           
                         )
                       }
-                      else if(cartred[0].counter ===0){
-                        return(
-                          <div key={key}>
-                            <p>No items added...</p>
-                          </div>
-                        )
+                      else if(cartred[0].counter === 0){
+                        
+                        if(count===false){
+                          count=true
+                          return(
+                            <div key={key}>
+                              <p>No items added...</p>
+                            </div>
+                          )
+                        
+                      }
                       }
                       else{return null}
                       
@@ -74,7 +85,7 @@ const Cart = () => {
                 </div>
 
                 <div  className={`  mt-2 flex max-md:justify-end  justify-end gap-4`}>
-                      <button className=' inline-flex justify-center items-center whitespace-nowrap'>Proceed to pay &nbsp; <FaRupeeSign />{cartred[0].counter}</button>
+                      <button className=' inline-flex justify-center items-center whitespace-nowrap'>Proceed to Buy &nbsp; <FaRupeeSign /><NumericFormat value={cartred[0].counter}  thousandSeparator={true} displayType="text"/></button>
                 </div>
 
 
