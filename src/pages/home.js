@@ -1,49 +1,25 @@
 import {PiPantsFill} from 'react-icons/pi'
 import {TbShirtFilled,TbShoe,TbDeviceMobile} from "react-icons/tb"
 import Navbar from '../components/navbar';
-import {  useDispatch,useSelector } from 'react-redux';
-import { addtocart ,updatetocart} from '../redux/cartReducer';
+import {  useSelector } from 'react-redux';
+
 import Slider from '../components/slider';
 import Product from '../components/product'
-import {  useEffect } from 'react';
+import Footer from '../components/footer';
 
 
 
 
 
-const Home = ({products,check,setCheck}) => {
+const Home = ({products,check,updatecart}) => {
     
     
     const redutheam = useSelector((store)=>(store.theam))
-    const cartred= useSelector((state)=>state.cart)
+
+
     
-    const dispatch=useDispatch()
-
-    function updatecart({...item},change){
-
-        let isPresent= false
-        cartred.forEach((items)=>{
-            if(items.id === item.id){
-                isPresent=true;
-                
-            }
-
-        })
-        if (isPresent){dispatch(updatetocart({id:item.id,change:change}))}
-        else{dispatch(addtocart({...cartred,title:item.name,quantity:1,id:item.id,price:item.price,url:item.imgUrl}))}
-        
-       
-    }
     
-    useEffect(()=>{
-            async function getdata(){
-                if(check===false){
-                     await (products.sort(()=>(Math.random() - 0.5)))
-                     setCheck(true)
-                    }
-            }
-            getdata()
-    },[check,setCheck,products])
+    
     
 
     var slider1imgs=[
@@ -91,8 +67,9 @@ const Home = ({products,check,setCheck}) => {
                                 
                         
                             </div>
-                            
-                            {<Slider images={slider1imgs[0]} type="all"></Slider>} 
+                            <div className='w-[300px] max-h-[250px] '>
+                                    {<Slider images={slider1imgs[0]} height={300} type="all"></Slider>} 
+                            </div>
                            
 
                             
@@ -142,7 +119,9 @@ const Home = ({products,check,setCheck}) => {
             <div className='flex w-[80%]  gap-10 items-center max-md:justify-center  mt-[10%] max-md:flex-col ' >
 
                 <div className='flex justify-start  max-md:justify-center max-md:w-full items-center w-[60%] z-10  '>
-                            {<Slider images={slider1imgs[0]} type="watch"></Slider>} 
+                <div className='w-[300px] max-h-[200px]'>
+                                    {<Slider images={slider1imgs[0]} height={250} type="watch" ></Slider>} 
+                            </div>
 
                     </div>
                     <div className='w-[40%] flex flex-col max-md:w-full gap-1  '>
@@ -194,36 +173,10 @@ const Home = ({products,check,setCheck}) => {
             </div>
         </div>
 
-        <footer style={{color:`${redutheam.color}`,backgroundColor:`${redutheam.color1}`}} className={` bg-${redutheam.color1} max-md:flex-col max-md:gap-10 p-10 text-[#9CA3AF] flex mt-10 justify-between items-center`}>
-            <div>
-             
-                <h1 className='font-bold max-md:text-center text-[20px]'>Ecommerce</h1>
-            </div>
-            <div className='whitespace-nowrap flex gap-8 font-[400] justify-center items-center w-[90%] max-md:text-[8px] white-space-nowarp text-[12px]'>
-                    <div className='flex flex-col items-center '>
-                        <p className='font-[600] hover:text-[#5FD788] text-[#5FD788]' href='/'>Customer Support</p>
-                        <p href='/'>Shipping</p>
-                        <p href='/'>Free Return</p>
-                        <p href='/'>Gift Cards</p>
-                    </div>
-                    <div className='flex flex-col items-center'>
-                        <p className='font-[600] hover:text-[#5FD788] text-[#5FD788]' href='/'>ABOUT US</p>
-                        <p href='/'>Our Values</p>
-                        <p href='/'>Sustainability</p>
-                        <p href='/'>Brand Ambassadors</p>
-                        <p href='/'>Fitness Professionals</p>
-                    </div>
-                    <div className='flex flex-col items-center'>
-                        <p className='font-[600] hover:text-[#5FD788] text-[#5FD788]' href='/'>Customer Service</p>
-                        <p href='/'>Help</p>
-                        <p href='/'>Leader Support</p>
-                        <p href='/'>Pleasant Grove Product Center</p>
-                        <p href='/'>Recall-Important Safety Information</p>
-                    </div>
-            
-                
-            </div>
-        </footer>
+        <div>
+            <Footer/>
+
+        </div>
        
                 
 

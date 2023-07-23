@@ -15,8 +15,8 @@ const Product = ({items,updatecart}) => {
     return null
   })
   return (
-    <div style={{boxShadow: '2px 2px 5px 2px rgba(0, 0, 0, 0.15)',color:`black`,backgroundColor:`white`}} className={` border-2 my-2 relative  min-w-[200px] h-full   max-md:w-[50%]   rounded-[20px]`}>
-            <img className='p-2 h-[300px] object-contain mx-auto' src={items.imgUrl} alt='img-6'/>
+    <div style={{boxShadow: '2px 2px 5px 2px rgba(0, 0, 0, 0.15)',color:`black`,backgroundColor:`white`}} className={` border-2 my-2 relative  w-[200px] h-full   max-md:w-[20%]   rounded-[20px]`}>
+            <img className='p-2 h-[200px] max-w-full   mx-auto' src={items.imgUrl} alt='img-6'/>
             <div className=' flex items-center justify-between  p-2    font-bold  w-[100%] h-[40px] '>
                 <p className='flex items-center'><span><FaRupeeSign/></span><NumericFormat value={items.price}  thousandSeparator={true} displayType="text"/></p>
                 

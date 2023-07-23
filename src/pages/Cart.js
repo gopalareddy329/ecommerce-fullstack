@@ -4,7 +4,7 @@ import { useSelector,useDispatch } from 'react-redux'
 import {MdDelete} from 'react-icons/md'
 import {FaRupeeSign} from 'react-icons/fa'
 import { NumericFormat } from 'react-number-format';
-import { addtocart ,updatetocart} from '../redux/cartReducer';
+import {  updatetocart} from '../redux/cartReducer';
 
 const Cart = () => {
   const theam = useSelector(state => state.theam)
@@ -75,9 +75,11 @@ const Cart = () => {
                             </div>
                           )
                         
+                        }else{
+                          return null
+                        }
                       }
-                      }
-                      else{return null}
+                      else{return <div></div>}
                       
                     })}
                   
@@ -85,7 +87,7 @@ const Cart = () => {
                 </div>
 
                 <div  className={`  mt-2 flex max-md:justify-end  justify-end gap-4`}>
-                      <button className=' inline-flex justify-center items-center whitespace-nowrap'>Proceed to Buy &nbsp; <FaRupeeSign /><NumericFormat value={cartred[0].counter}  thousandSeparator={true} displayType="text"/></button>
+                      <button className=' inline-flex justify-center items-center whitespace-nowrap'>Proceed to Buy &nbsp; <FaRupeeSign /><NumericFormat value={(cartred[0].counter )}  thousandSeparator={true} displayType="text"/></button>
                 </div>
 
 

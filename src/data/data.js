@@ -207,6 +207,31 @@ const data ={
 			"category":"shoe",
 			"type":"all"
 		},
+		{
+			"id":26,
+			"imgUrl": "https://images.squarespace-cdn.com/content/v1/5b150983aa49a1a8a6b2a5a3/1528538680426-434WTABSEBXFB1YBD7BJ/samsung-s8-poster.png",
+			"name": "Samsung mobile",
+			"price": 40000,
+			"category":"mobile",
+			"type":"shop-slider"
+		},
+		{
+			"id":27,
+			"imgUrl": "https://i.pinimg.com/originals/6f/8f/c2/6f8fc29bbbc7986db9ab471fae1e3670.jpg",
+			"name": "iphone",
+			"price": 60000,
+			"category":"mobile",
+			"type":"shop-slider"
+		},
+		{
+			"id":28,
+			"imgUrl": "https://www.digitalwebreview.com/wp-content/uploads/2021/06/OnePlus-Nord-CE-5G-poster.jpg",
+			"name": "oneplus",
+			"price": 60000,
+			"category":"mobile",
+			"type":"shop-slider"
+		}
+
 		
 		
 		

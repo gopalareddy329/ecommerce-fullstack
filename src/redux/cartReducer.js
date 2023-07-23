@@ -6,7 +6,7 @@ const cartReducer = createSlice({
     reducers:{
         addtocart(state,action){
             state.push(action.payload)
-            state[0].counter +=parseFloat(action.payload.price)
+            state[0].counter += (parseFloat(action.payload.price))
         },
         updatetocart(state,action){
             const {id} =(action.payload)
@@ -14,7 +14,10 @@ const cartReducer = createSlice({
             if(existingPost){
                 existingPost.quantity +=action.payload.change
                 console.log(existingPost.quantity)
-                state[0].counter +=parseFloat(existingPost.price * action.payload.change)
+    
+                state[0].counter +=(parseFloat(existingPost.price * action.payload.change))
+                state[0].counter=Math.round((state[0].counter *100.0)/100.0)
+             
             }
            
         }

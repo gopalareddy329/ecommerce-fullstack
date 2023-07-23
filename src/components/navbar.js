@@ -17,13 +17,13 @@ const Navbar = () => {
                 <span className='cursor-pointer' onClick={changeTheam}><BsFillSunFill size={15}/></span>
             </div>
             <div className='inline-flex gap-2'>
-                <Link to='/'><p className='hover:text-[#5FD788]' >HOME</p></Link>
+                <Link to='/'><p className='hover:text-[#5FD788] ' >HOME</p></Link>
                 <Link><p className='hover:text-[#5FD788]' >ABOUT US</p></Link>
-                <Link><p className='hover:text-[#5FD788]' >SHOP</p></Link>
+                <Link to='/shopping'><p className='hover:text-[#5FD788]' >SHOP</p></Link>
                 <Link><p className='hover:text-[#5FD788]' >CONTACT</p></Link>
             </div>
             <div className='flex gap-2 items-center max-md:w-full max-md:mt-[3%]'>
-                <Link to='/cart'><p className='order-1'><PiBagLight size={25}/></p></Link>
+                <Link to='/cart'><p className='order-1 '><PiBagLight size={25}/></p></Link>
                 <input style={{borderColor:`${redutheam.color}`}} className=' h-[45px] w-[95%] order-0 p-3 bg-transparent border-[1px] rounded-[5px]' placeholder='Search...'/>
                 <p  ><BsSearch size={20}/></p>
             </div>
