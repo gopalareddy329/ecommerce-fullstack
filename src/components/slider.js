@@ -34,7 +34,7 @@ const Slidertag = ({images,type,height}) => {
   return (
 
         <Slider    {...settings}>
-                    {imas[0].slice(0,5).map((items,key)=> <div key={key}  className={`h-300px] p-2  max-md:max-h-[300px]`}> <img className={`mx-auto h-[${height}px]   max-w-full`} src={items.imgUrl} alt={items.title}></img></div>)}
+                    {imas[0].slice(0,5).map((items,key)=> <div key={key}  className={` p-2    max-md:max-h-[300px]`}> <img className={`mx-auto h-[${height}px]   max-w-full`} src={items.imgUrl} alt={items.title}></img></div>)}
         </Slider>
       
 
