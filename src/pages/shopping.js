@@ -3,7 +3,7 @@ import Navbar from '../components/navbar'
 import { useSelector /*,useDispatch */ } from 'react-redux'
 import Slidertag from '../components/slider'
 import Product from '../components/product'
-
+import Footer from '../components/footer'
 
 const Shopping = ({products,check,updatecart}) => {
     const redutheam = useSelector((store)=>(store.theam))
@@ -26,7 +26,7 @@ const Shopping = ({products,check,updatecart}) => {
     
     //const dispatch=useDispatch()
   return (
-    <div style={{backgroundColor:`${redutheam.theam}`,color:`${redutheam.color}`}} className='block poppins overflow-hidden'>
+    <div style={{backgroundColor:`${redutheam.theam}`,color:`${redutheam.color}`}} className='block  poppins overflow-hidden'>
         <div>
             <Navbar/>
         </div>
@@ -37,10 +37,10 @@ const Shopping = ({products,check,updatecart}) => {
         </div>
 
         <div className='w-[100%] '>    
-                <div className='mx-auto max-w-[90%] flex items-center flex-cols flex-wrap'>
+                <div className='mx-auto max-w-[90%] justify-center  flex items-center flex-cols flex-wrap'>
                       <h1 style={{color:`${redutheam.color}`}}  className='max-md:w-[100%] self-center p-5    text-[50px] font-semibold'>All Products</h1>
                       
-                      <div className='flex max-w-full  flex-wrap gap-5 mr-5'>
+                      <div className='flex max-w-full justify-center flex-wrap gap-5 mr-5'>
                               {check &&  products.slice(pageno*10,(pageno*10)+10).map((items,key)=> <Product items={items} key={key}  updatecart={updatecart} theam={redutheam} />)}
                       </div>
                       
@@ -63,6 +63,9 @@ const Shopping = ({products,check,updatecart}) => {
                               }
                         })}
             </div>
+        </div>
+        <div>
+            <Footer/>
         </div>
 
     </div>

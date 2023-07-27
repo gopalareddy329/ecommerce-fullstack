@@ -68,7 +68,7 @@ const Home = ({products,check,updatecart}) => {
                         
                             </div>
                             <div className='w-[300px] max-h-[250px] '>
-                                    {<Slider images={slider1imgs[0]} height={300} type="all"></Slider>} 
+                                    {<Slider images={slider1imgs[0]} height={250} type="all"></Slider>} 
                             </div>
                            
 

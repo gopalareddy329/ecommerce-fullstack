@@ -76,10 +76,10 @@ const Cart = () => {
                           )
                         
                         }else{
-                          return null
+                          return 
                         }
                       }
-                      else{return <div></div>}
+                      else{return }
                       
                     })}
                   
