@@ -137,7 +137,7 @@ const Home = ({products,check,updatecart}) => {
 
         <div className='flex w-full justify-between  max-md:items-center mt-[5%] max-md:flex-col'>    
             <h1 style={{color:`${redutheam.color}`}}  className='max-md:w-[100%] self-center p-5  w-[20%] text-center  text-[50px] font-semibold'>Top Deals</h1>
-           <div className=' overflow-scroll md:max-w-[80%] max-md:w-[95%] '>
+           <div className=' overflow-scroll  max-md:w-[95%] '>
                 <div className='flex gap-5 mr-5'>
                         {check &&  products.slice(0,6).map((items,key)=> <Product items={items} key={key}  updatecart={updatecart} theam={redutheam} />)}
                 </div>
@@ -166,8 +166,8 @@ const Home = ({products,check,updatecart}) => {
 
         <div className='flex w-full justify-between  max-md:items-center mt-[5%] max-md:flex-col'>    
             <h1 style={{color:`${redutheam.color}`}}  className='max-md:w-[100%] self-center p-5  w-[20%] text-center  text-[50px] font-semibold'>Shop deals</h1>
-           <div className=' overflow-scroll md:max-w-[80%] max-md:w-[95%] '>
-                <div className='flex gap-5 mr-5'>
+           <div className=' overflow-scroll  max-md:w-[95%] '>
+                <div className='flex gap-5 mr-5 '>
                         {check &&  products.slice(18,25).map((items,key)=> <Product items={items} key={key}  updatecart={updatecart} theam={redutheam} />)}
                 </div>
             </div>
