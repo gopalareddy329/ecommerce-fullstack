@@ -1,5 +1,7 @@
 import React, { useContext, useState } from 'react';
 import AuthContext from '../../context/AuthContext';
+import ContentWrapper from '../../components/contentWrapper/ContentWrapper';
+import { Link } from 'react-router-dom';
 
 const RegistrationForm = () => {
     const {registerUser} = useContext(AuthContext)
@@ -45,7 +47,6 @@ const RegistrationForm = () => {
     e.preventDefault();
 
     if (validateForm()) {
-      // Submit the form or call an API here
       console.log('Form submitted:', formData);
       registerUser(e);
     } else {
@@ -54,33 +55,49 @@ const RegistrationForm = () => {
   };
 
   return (
-    <form onSubmit={handleSubmit}>
-      <div>
-        <label>Username:</label>
-        <input type="text" name="username" value={formData.username} onChange={handleChange} />
-        {errors.username && <p>{errors.username}</p>}
-      </div>
+    <div className=' w-full '>
+      <ContentWrapper className="mx-auto flex w-full">
+          <div className='w-[40%] max-lg:hidden'>
+            <img alt="signup" className='h-[35rem] min-w-[25rem]' src='https://img.freepik.com/free-photo/studio-shot-pretty-black-woman-with-white-shopping-bag-standing-yellow-background-trendy-spring-fashionable-look_273443-10.jpg'/>
+          </div>
 
-      <div>
-        <label>Email:</label>
-        <input type="email" name="email" value={formData.email} onChange={handleChange} />
-        {errors.email && <p>{errors.email}</p>}
-      </div>
+          <div className=' w-full flex flex-col  gap-[1rem] items-center'>
+              <div>
+                  <h1 className='text-[3rem]'>Create an account</h1>
+                  <p className='text-[1rem]'>Enter your details below</p>
+              </div>
+              <form className='leading-[4rem]' onSubmit={handleSubmit}>
+                    <div>
+                      <input className=" w-[20rem]  py-4  font-medium  border-b border-gray-400 placeholder-gray-500 text-sm focus:outline-none focus:border-gray-800 bg-white"
+                              type="text" placeholder="Name" name="username" value={formData.username} onChange={handleChange}/>
+                      {errors.username && <p className='text-red-500 text-[15px]'>{errors.username}</p>}
+                    </div>
 
-      <div>
-        <label>Password:</label>
-        <input type="password" name="password" value={formData.password} onChange={handleChange} />
-        {errors.password && <p>{errors.password}</p>}
-      </div>
+                    <div>
+                      <input className=" w-[20rem]  py-4  font-medium  border-b border-gray-400 placeholder-gray-500 text-sm focus:outline-none focus:border-gray-800 bg-white"
+                      type="email" name="email" placeholder='Email' value={formData.email} onChange={handleChange} />
+                      {errors.email && <p className='text-red-500 text-[15px]'>{errors.email}</p>}
+                    </div>
 
-      <div>
-        <label>Confirm Password:</label>
-        <input type="password" name="confirmPassword" value={formData.confirmPassword} onChange={handleChange} />
-        {errors.confirmPassword && <p>{errors.confirmPassword}</p>}
-      </div>
+                    <div>
+                      <input className=" w-[20rem]  py-4  font-medium  border-b border-gray-400 placeholder-gray-500 text-sm focus:outline-none focus:border-gray-800 bg-white"
+                      type="password" name="password" placeholder='Password' value={formData.password} onChange={handleChange} />
+                      {errors.password && <p className='text-red-500 text-[15px]'>{errors.password}</p>}
+                    </div>
 
-      <button type="submit">Register</button>
-    </form>
+                    <div>
+                      <input className=" w-[20rem]  py-4  font-medium  border-b border-gray-400 placeholder-gray-500 text-sm focus:outline-none focus:border-gray-800 bg-white"
+                      type="password" name="confirmPassword" placeholder='Confirm Password' value={formData.confirmPassword} onChange={handleChange} />
+                      {errors.confirmPassword && <p className='text-red-500 text-[15px]'>{errors.confirmPassword}</p>}
+                    </div>
+
+                    <button className='w-[20rem]  mt-5 bg-red-500 text-white' type="submit">Create Account</button>
+                    <p>have an account&nbsp;<Link to="/login" className='border-b border-black'> Login</Link></p>
+
+                </form>
+          </div>
+        </ContentWrapper>
+    </div>
   );
 };
 

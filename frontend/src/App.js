@@ -17,10 +17,11 @@ const App = () => {
       <AuthProvider>
         <Routes>
                 <Route path="/login" element={<Login />} />
-                <Route path="/register" element={<Register />} />
+                
                 
                 <Route path='/' element={<OutLet />}>
                     <Route path="/" element={<Home/> } />
+                    <Route path="/register" element={<Register />} />
                     <Route path="/cart" element={<PrivateRoute Component={Cart} /> } />
                 </Route>
         </Routes>

@@ -35,15 +35,15 @@ const Navbar = () => {
                         <span className='font-bold text-[20px]'>Ecommerce</span>
                     </div>
                     <div className='inline-flex whitespace-nowrap gap-5 lg:gap-10 max-md:hidden'>
-                        <Link to='/'><p onClick={()=>{setIsActive("home")}} className={`hover:text-[#5FD788]  ${isActive==="home" ? "border-black border-b-2 border-solid":""}`} >HOME</p></Link>
-                        <Link><p onClick={()=>{setIsActive("contact")}} className={`hover:text-[#5FD788]  ${isActive==="contact" ? "order-black border-b-2 border-solid":""}`} >CONTACT</p></Link>
-                        <Link to='/cart'><p onClick={()=>{setIsActive("about")}} className={`hover:text-[#5FD788]  ${isActive==="about" ? "order-black border-b-2 border-solid":""}`}  >ABOUT</p></Link>
-                        <Link><p>Sign Up</p></Link>
+                        <Link to='/' onClick={()=>{setIsActive("home")}}><p  className={`hover:text-[#5FD788]  ${isActive==="home" ? "border-black border-b-2 border-solid":""}`} >HOME</p></Link>
+                        <Link to="" onClick={()=>{setIsActive("contact")}}><p  className={`hover:text-[#5FD788]  ${isActive==="contact" ? "order-black border-b-2 border-solid":""}`} >CONTACT</p></Link>
+                        <Link to='/cart' onClick={()=>{setIsActive("about")}}><p  className={`hover:text-[#5FD788]  ${isActive==="about" ? "order-black border-b-2 border-solid":""}`}  >ABOUT</p></Link>
+                        <Link to="/register" onClick={()=>{setIsActive("signup")}}><p   className={`hover:text-[#5FD788]  ${isActive==="signup" ? "order-black border-b-2 border-solid":""}`}>Sign Up</p></Link>
                     </div>
                     <div className='flex gap-2 items-center max-md:w-full  max-md:justify-end '>
                         
                         <div className='flex border-[1px] px-2 items-center bg-gray-100 '>
-                          <input  className='text-white h-[45px] max-md:text-[0.8rem] bg-gray-100  w-[95%] order-0 p-2  rounded-[5px]' placeholder='Search...'/>
+                          <input  className='text-black border-none outline-none h-[45px] max-md:text-[0.8rem] bg-gray-100  w-[95%] order-0 p-2  rounded-[5px]' placeholder='Search...'/>
                           <p><CiSearch size={30}/></p>
                         </div>
                         <Link to='/cart'><p className='order-1'><IoCartSharp size={30}/></p></Link>

@@ -1,4 +1,4 @@
-import {createContext,useState,useEffect} from 'react'
+import {createContext,useState} from 'react'
 import {useNavigate} from 'react-router-dom'
 import { jwtDecode } from "jwt-decode";
 
@@ -12,7 +12,7 @@ export const AuthProvider = ({children}) =>{
     let [authToken,setAuthToken] = useState(()=> localStorage.getItem('authTokens') ? JSON.parse(localStorage.getItem('authTokens')) : null)
     let [user,setUser]= useState(()=> localStorage.getItem('authTokens') ? jwtDecode(localStorage.getItem('authTokens')) : null)
 
-    const [loading, setLoading] = useState(true);
+
     
 
     
