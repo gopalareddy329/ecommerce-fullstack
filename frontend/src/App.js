@@ -3,28 +3,34 @@
 import React from 'react';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import Home from './pages/homePage/Home';
-import Login from './pages/loginPage/Login';
+import LoginForm from './pages/loginPage/Login';
 import PrivateRoute from './utlis/PrivateRoutes';
 import { AuthProvider } from './context/AuthContext';
-import Register from './pages/registerPage/Register';
+import { CartProvider } from './context/CartContext';
+import RegistrationForm from './pages/registerPage/Register';
 import  OutLet  from './components/outLet/OutLet';
 import Cart from './pages/cartPage/Cart';
-
-
+import ProductView from './pages/productView/ProductView';
+import ForYouPage from './pages/forYouPage/ForYouPage';
 const App = () => {
   return (
     <Router>
       <AuthProvider>
-        <Routes>
-                <Route path="/login" element={<Login />} />
-                
-                
-                <Route path='/' element={<OutLet />}>
-                    <Route path="/" element={<Home/> } />
-                    <Route path="/register" element={<Register />} />
-                    <Route path="/cart" element={<PrivateRoute Component={Cart} /> } />
-                </Route>
-        </Routes>
+      <CartProvider>
+          <Routes>
+                  <Route path='/'  element={<OutLet />}>
+                      <Route path="/login" element={<LoginForm />} />
+                      <Route path="/register" element={<RegistrationForm />} />
+
+                      
+                        <Route path="/" index element={<Home/>} />
+                        <Route path="/products/:id" index element={<ProductView/>} />
+                        <Route path="/foryou" element={<PrivateRoute Component={<ForYouPage/>} /> } />
+                        <Route path="/cart" element={<PrivateRoute Component={<Cart/>} /> } />
+
+                  </Route>
+          </Routes>
+        </CartProvider>
       </AuthProvider>
     </Router>
   );

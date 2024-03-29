@@ -8,10 +8,10 @@ const Footer = () => {
     
     
   return (
-    <div className=''>
+    <div className='bg-black'>
         <ContentWrapper className="flex w-full max-md:flex-wrap gap-10 px-10 py-20 text-white bg-black text-[10px] justify-center">
                 
-                    <section className="bg-black md:flex-shrink-0  leading-7  ">
+                    <section className=" md:flex-shrink-0  leading-7  ">
                         <h1 className="text-4xl">Exclusive</h1>
                         <p className="mt-4">Subscribe <br/> Get 10% off your first order</p>
                         <div className="flex items-center max-w-[12rem] border-[1px] border-white border-solid  px-[10px] py-[5px] rounded-sm w-64">
