@@ -70,3 +70,5 @@ cython_debug/
 .DS_Store
 .vscode/test
 backend/__pycache__/main.cpython-311.pyc
+backend/ml_models/ml_train/
+backend/api/migrations/

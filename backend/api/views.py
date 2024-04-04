@@ -7,21 +7,24 @@ from .models import User
 from django.views.decorators.csrf import csrf_exempt
 from .serializer import UserSerializer,ProductSerializer
 from .token import MyTokenObtainPairSerializer
-import joblib
-import pandas as pd
-from sklearn.preprocessing import LabelEncoder
-from .models import Product,UserInfo
+from .models import Product,Purchase
 from django.db.models import Count,F,Sum
 import random
-from sklearn.preprocessing import LabelEncoder
+from sklearn.feature_extraction.text import TfidfVectorizer
+from sklearn.metrics.pairwise import cosine_similarity
+import pandas as pd
+import joblib
+import numpy as np
+from datetime import datetime, timedelta
 
 
 # Replace "kmeans_Customer_Analysis.pkl" with your actual filename
-model = joblib.load("ml_models/new_kmeans_model.pkl")
-scaler = joblib.load("ml_models/scaler.pkl")
-pca = joblib.load("ml_models/pca.pkl")
-clusters=pd.read_csv("ml_models/clusters.csv")
-label_encoder = LabelEncoder()
+tfidf_vectorizer = joblib.load('ml_models/ml_models/cosine/tfidf_vectorizer.pkl')
+tfidf_matrix = joblib.load('ml_models/ml_models/cosine/tfidf_matrix.pkl')
+product_indices = pd.read_csv('ml_models/ml_models/cosine/product_indices.csv')
+# Compute cosine similarity between products
+cosine_sim = cosine_similarity(tfidf_matrix)
+
 
 @api_view(['POST'])
 @permission_classes([AllowAny])
@@ -29,22 +32,15 @@ label_encoder = LabelEncoder()
 def register(request):
     username = request.data.get('username_or_email')
     password = request.data.get('password')
-    dob=request.data.get("dob") 
-    if not username or not password or not dob:
-        return Response({'error': 'Username and password and dob are required'}, status=status.HTTP_400_BAD_REQUEST)
+
+    if not username or not password :
+        return Response({'error': 'Username and password '}, status=status.HTTP_400_BAD_REQUEST)
     name=request.data.get("name") if request.data.get("name") !=None else  username.split("@")[0] if '@' in username else username
     email=request.data.get("email") if request.data.get("email") !=None else  username if '@' in username else '' 
-    
-    
-    
-
     try:
         user, created = User.objects.get_or_create(username=username,email=email,name=name)
         print(username,name)
         if created:
-                user_info=UserInfo.objects.create(Year_Birth=dob)
-                user_info.save()
-                user.info = user_info
                 user.set_password(password)
                 user.save()
                 serializer=MyTokenObtainPairSerializer(data={"username":username,"email":email,"name":name,"password":password})
@@ -58,95 +54,138 @@ def register(request):
         return Response({'error': str(e)}, status=status.HTTP_400_BAD_REQUEST)
 
 
-@api_view(['PUT'])
-@permission_classes([IsAuthenticated])
-def get_personal_info(request):
-    user = User.objects.get(id=request.user.id)
-    Marital_Status=request.data.get("maritalstatus")
-    Education=request.data.get("education")
-    Income=request.data.get("income")
+
+@api_view(["GET"])
+@permission_classes([AllowAny])
+def get_product_id(request,id):
     try:
-        
-        if user:
-            user.info.Marital_Status=Marital_Status
-            user.info.Education=Education
-            user.info.Income=Income
-            user.info.save()
-            user.save()
-            return Response({"result":"Got the info"})
-        else:
-            return Response({'error': 'Log the user'}, status=status.HTTP_400_BAD_REQUEST) 
+        product=Product.objects.get(product_id=id)
+        serial=ProductSerializer(product,many=False)
+        recommended=find_similar_products(new_description=[product.description],num_similar=4)
+
+        recommend_products=Product.objects.filter(product_id__in=recommended)
+ 
+        serial_rec=ProductSerializer(recommend_products,many=True)
+        return Response({"result":serial.data,"recommend":serial_rec.data})
     except Exception as e:
-        print(e)
-        return Response({'error':str(e)},status=status.HTTP_400_BAD_REQUEST)
+        print(str(e))
+        return Response({'error': str(e)}, status=status.HTTP_400_BAD_REQUEST)
+
+@api_view(["GET"])
+@permission_classes([AllowAny])
+def get_top_selling_products(request,period='week',limit=30):
+    category = request.query_params.get('category')
+    products=get_top_selling(period,limit,category)
+ 
+    serial=ProductSerializer(products,many=True)
+    return Response({"result":serial.data})
+
+
+def get_top_selling(period="week",limit=30,category=None):
+    if period == 'week':
+        end_date = datetime.now()
+        start_date = end_date - timedelta(days=7)
+        top_selling_products=Purchase.objects
+        if category and category!="null":
+            top_selling_products=Purchase.objects.filter(product__category__icontains=category)
+        new_top=top_selling_products.filter(
+            created_at__gte=start_date,
+            created_at__lte=end_date
+        ).values('product').annotate(total_sold=Sum('quantity')).order_by('-total_sold')[:limit]
+        products=[]
+        for item in new_top:
+            products.append(Product.objects.get(id=item['product']))
+        if len(products)<30:
+            products.extend(Product.objects.exclude(product_id__in=products)[:30-len(products)])
+        return products
 
 
 
-
-@api_view(['GET'])
-@permission_classes([IsAuthenticated])
-def get_user_details(request):
-    user = request.user
-    print(user.username)
-    serializer = UserSerializer(request.user)
-    return Response(serializer.data)
 
 
 
 @api_view(['GET'])
 @permission_classes([AllowAny])
-def predict_user_cluster(request):
-    user=User.objects.get(username="pmallireddy329@gmail.com")
-    category_counts = Product.objects.filter(purchases__user__id=user.id).annotate(category_name=F('category'),total_spent=Sum(F('purchases__quantity')*random.randint(190,250) )).values('category_name', 'total_spent')
-    total_spent_sum = sum(category['total_spent'] for category in category_counts)
-    User_input = pd.DataFrame([[0, 'Basic', 'Single', 245600,total_spent_sum]], columns=['year_birth', 'education', 'marital_status', 'income','expenses'])
-    User_input['education'] = label_encoder.fit_transform(User_input['education'])
-    User_input['marital_status'] = label_encoder.fit_transform(User_input['marital_status'])
-    scaled_data = scaler.transform(User_input)
-    data=pca.transform(scaled_data)
-    pred_cluster=model.predict(data)[0]
-    pred_cl_details = clusters[clusters['Cluster'] == pred_cluster]
-    products_col =["wines","fruits","meat","fish","sweet","gold"]
-    products_bought = pred_cl_details[products_col].sum()
-    total_amt = products_bought.sum()
-    percent_products_bought = ((products_bought / total_amt) * 100).sort_values(ascending=False)
-    products=get_products_with_percentage(percent_products_bought)
-    random.shuffle(products)
-    serial=ProductSerializer(products,many=True)
+def get_user_details(request):
+    user = User.objects.get(email="BASANTKUMARPRADHAN@gmail.com")
+    print(user.username)
+    serializer = UserSerializer(user,many=False)
+    return Response(serializer.data)
+
+
+
+@api_view(['GET'])
+@permission_classes([IsAuthenticated])
+def predict_user_cluster(request,num):
+    
+    user = request.user
+    descriptions = Product.objects.filter(purchases__user__id=user.id) \
+                               .annotate(purchased_description=F('description')) \
+                               .values('purchased_description')\
+                               
+                               
+    if len(descriptions)>3:
+        descriptions=descriptions.order_by('-purchases__created_at')[:3]
+    
+    recommend_products=[]
+
+    if len(descriptions)>0:
+
+        num_similar=int(int(num)/max(len(descriptions),1))
+        
+
+        purchased_descriptions = [item['purchased_description'] for item in list(descriptions)]
+        product_id=find_similar_products(new_description=purchased_descriptions,num_similar=num_similar)
+
+        recommend_products=Product.objects.filter(product_id__in=product_id)
+    else:
+        recommend_products=get_top_selling(limit=60)
+
+    
+    serial=ProductSerializer(recommend_products,many=True)
+    
     return Response({"result":serial.data})
 
 
 
-def predict_test():
-    products=Product.objects.all()
-    category_mapping={'MntWines':'wines','MntFruits':'fruits','MntMeatProducts':'meat','MntFishProducts':'fish','MntSweetProducts':'sweet','MntGoldProds':'gold'}
-    for product in Product.objects.all():
-        old_category_name = product.category
-        new_category_name = category_mapping.get(old_category_name, old_category_name)
-        product.category = new_category_name
-        product.save()
 
+@api_view(['POST'])
+@permission_classes([IsAuthenticated])
+def update_user_purchase(request):
+   
+    data=request.data.get("ids")
 
-
-
-
-
-def get_products_with_percentage(percentage_per_category):
-    products_by_category = Product.objects.values('category').annotate(
-        total_products=Count('id'),
-    )
-
-    total_products = min(30, Product.objects.count()) 
+    for row in data:
+        try:
+            
+            product=Product.objects.get(product_id=row["id"])
+            user = User.objects.get(username=request.user)
+            purchase=Purchase.objects.create(user=user,product=product,quantity=int(row["quantity"]))
+            purchase.save()
+        except Exception as e:
+            return Response({'error': str(e)}, status=status.HTTP_400_BAD_REQUEST)
     
-    filtered_products = []
-    for category_data in products_by_category:
-        category = category_data['category']
-        if category in percentage_per_category.index:
-            target_percentage = percentage_per_category.loc[category]
-            target_products = total_products * target_percentage * 0.01
-            if not pd.isna(target_products) and target_products >= 0:
-                products = Product.objects.filter(category=category)[:int(target_products)]
-                filtered_products.extend(list(products))
+    return Response({"result":"Purchased Successful"})
 
+
+
+
+def find_similar_products(new_description, num_similar=10):
+
+    similar_products_global=[]
+    def find_pro(des):
+        new_description_vec = tfidf_vectorizer.transform([des])
+        similarity_scores = cosine_similarity(new_description_vec, tfidf_matrix)[0]
+        similarity_scores=np.array([score for score in similarity_scores if score < 0.99])
+        similar_indices = similarity_scores.argsort()[-num_similar:][::-1]
+        similar_products = product_indices.iloc[similar_indices]
+        similar_products_global.extend(similar_products["id"].tolist())
+        
     
-    return filtered_products
+
+    for i in new_description:
+        find_pro(des=i)
+    return similar_products_global
+
+
+

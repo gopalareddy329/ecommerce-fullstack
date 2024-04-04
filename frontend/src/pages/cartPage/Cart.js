@@ -3,8 +3,33 @@ import React,{useContext} from 'react';
 import  CartContext  from '../../context/CartContext';
 import ContentWrapper from '../../components/contentWrapper/ContentWrapper'
 import { FaRupeeSign } from "react-icons/fa";
+import { API_BASE } from '../../utlis/api';
+import AuthContext from '../../context/AuthContext'
+import { Link } from 'react-router-dom';
+import {  toast } from 'react-toastify';
 function Cart() {
   const { state,dispatch } = useContext(CartContext);
+  const {authToken} = useContext(AuthContext)
+
+  const handleButtonClick = async () => {
+    try{
+      const res=await fetch(API_BASE+'/update_user_purchase/',{
+        method: 'POST',
+        headers: {
+          'Authorization': `Bearer `+String(authToken.access),
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({"ids":state.items.map((item)=>(item))}),
+      })
+      const response=await res.json()
+      if(res.ok){
+          toast.info(response.result)
+          dispatch({"type":"EMPTY_CART"})
+      }
+    }catch(err){
+      toast.info(err)
+    }
+  };
 
  
 
@@ -34,7 +59,7 @@ function Cart() {
                   <tbody>
                           {state.items.length>0 ? (state?.items?.map(item => (
                               <tr key={item.id} className='border border-gray-200 shadow h-20 '>
-                                <td>{item.name}</td>
+                                <td><span className='clamped-text  tracking-tight '>{item.name}</span></td>
                                 <td className='flex  my-auto  items-center h-20 '><FaRupeeSign/>{item.price}</td>
                                 <td >
                                   <div className='w-fit p-2 gap-5 border border-black rounded-sm h-[40px] flex items-center justify-between  relative' >
@@ -63,7 +88,12 @@ function Cart() {
                         <p className='w-full flex justify-between border-b border-black'>Shipping:<span className='flex  my-auto  items-center '>Free</span></p>
                         <p className='w-full flex justify-between '>Total:<span className='flex  my-auto  items-center '><FaRupeeSign/>{calculateTotal()}</span></p>
                     </div>
-                    <button className='bg-red-500 text-white w-full font-bold text-[24px] mt-5 '>Buy</button>
+                    {calculateTotal()>0 ? (
+                      <button onClick={handleButtonClick} className='bg-red-500 text-white w-full font-bold text-[24px] mt-5 '>Buy</button>
+                    ):(
+                      <Link to='/' className='bg-red-500 text-white w-full font-bold text-[24px] mt-5 px-5 py-3'>Home</Link>
+                    )}
+                    
                 </div>
             </div>
 

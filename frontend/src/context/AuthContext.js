@@ -41,10 +41,12 @@ export const AuthProvider = ({children}) =>{
             return err
         }
     }
+
     const logoutUser = ()=>{
         setAuthToken(null)
         setUser(null)
         localStorage.removeItem('authTokens')
+        localStorage.removeItem('cart');
         navigate("/register")
     }
     const registerUser = async (e) =>{

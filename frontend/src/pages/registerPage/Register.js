@@ -1,9 +1,9 @@
-import React, { useContext, useState } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import AuthContext from '../../context/AuthContext';
 import ContentWrapper from '../../components/contentWrapper/ContentWrapper';
 import { Link } from 'react-router-dom';
 import {  toast } from 'react-toastify';
-
+import CartContext from '../../context/CartContext';
 
 const RegistrationForm = () => {
     const {registerUser} = useContext(AuthContext)
@@ -16,6 +16,10 @@ const RegistrationForm = () => {
   });
 
   const [errors, setErrors] = useState({});
+  const { dispatch } = useContext(CartContext);
+  useEffect(()=>{
+    dispatch({"type":"EMPTY_CART"})
+  },[dispatch])
 
   const handleChange = (e) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });

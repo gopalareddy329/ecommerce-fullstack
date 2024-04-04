@@ -7,26 +7,26 @@ import ContentWrapper from '../../components/contentWrapper/ContentWrapper'
 import StarRating from '../../components/rating/StarRating'
 import { FaRupeeSign } from "react-icons/fa";
 import Card from '../../components/products/card/Card'
-
+import Products from '../../components/products/Products';
+import ImgRender from '../../components/imgRender/ImgRender';
 
 function ProductView() {
   const { dispatch } = useContext(CartContext);
   const {id}=useParams()
-  const {data,loading,error}=ProductFetch("https://dummyjson.com/products/"+id)
+  const {data,loading,error}=ProductFetch("/get_product_id/"+id)
   const [currentImg,setCurrentImg]=useState(null)
   useEffect(()=>{
-    console.log(data)
-    if (!loading && !error && data && data.images && data.images.length > 0) {
-      setCurrentImg(data.images[0]);
+    if (!loading && !error && data.result && data.result.image_link ) {
+      data.result.image_link=[data.result.image_link]
+      setCurrentImg(data.result.image_link[0])
     }
-  },[data,error,loading])
+  },[data,loading,error])
   
   
 
   const handleAddToCart = () => {
-    const item = { id: data.id, name: data.title, price: data.price, quantity: 1 };
+    const item = { id: data.result.product_id, name: data.result.name, price: data.result.price, quantity: 1 };
     dispatch({ type: 'ADD_TO_CART', payload: item });
-    console.log("added")
   };
 
   return (
@@ -74,24 +74,24 @@ function ProductView() {
                 <div className='flex gap-20 max-md:flex-col max-md:justify-center max-md:items-center'>
                    <div className='md:w-[50%] max-md:flex-col flex gap-5 items-center justify-center'>
                       <div className='md:w-[30%] max-md:order-2 max-md:flex'>
-                        {data && data.images?.map((item,key)=>(
+                       {(data.result && Array.isArray(data.result.image_link))&&  data.result.image_link?.map((item,key)=>(
                             <div className='shadow' onClick={()=>{setCurrentImg(item)}} key={key}>
-                              <img className='w-[400px] object-fit h-[100px]' src={item} alt={item.title}/>
+                              <ImgRender className='w-[400px] object-fit h-[100px]' src={item} alt={item.title}/>
                             </div>
                           ))}
 
                       </div>
                       <div className='md:w-[70%]'>
-                          <img className='object-fit  min-w-[300px] h-fit min-h-[50px]' alt={data.title} src={currentImg}/>
+                          <ImgRender className='object-fit  min-w-[300px] h-fit min-h-[50px]'  src={currentImg}/>
                       </div>
 
                    </div>
                    <div className='max-md:flex flex-col w-[90%] md:w-[50%]'>
                         <div className='leading-[2.5rem] w-full border-b border-black'>
-                            <h1 className='font-semibold text-[34px]'>{data.title}</h1>
-                            <StarRating   initialRating={data?.rating}/>
-                            <p className='font-semibold text-[18px] flex items-center'><FaRupeeSign/>{data.price}</p>
-                            <p className='text-[12px]'>{data.description}</p>
+                            <h1 className='font-semibold text-[34px]'>{data?.result?.name}</h1>
+                            <StarRating   initialRating={data?.result?.rating}/>
+                            <p className='font-semibold text-[18px] flex items-center'><FaRupeeSign/>{data?.result?.price}</p>
+                            <p className='text-[12px]'>{data?.result?.description}</p>
                         </div>
                      
                         <button onClick={handleAddToCart} className='bg-red-500 text-white w-full max-w-[400px] mx-auto   text-[24px] mt-5 '>Add to Cart</button>
@@ -103,15 +103,8 @@ function ProductView() {
                           <div>
                             <h3 className='text-red-500 border-l-[5px] border-red-500 p-2'>Related Item</h3>
                           </div>
-                          <div className='my-20 flex flex-wrap gap-5 justify-center items-center'>
-                            {[...Array(4)].map((_,key)=>(
-                              <div key={key} >
-                                  <Card  item={data}/>
-
-                              </div>
-                            ))}
-                            
-
+                          <div className='mt-20'>
+                               <Products data={data.recommend} loading={loading} error={error}/>
                           </div>
                   </div>
 

@@ -1,5 +1,5 @@
 // CartContext.js
-import React, { createContext, useReducer } from 'react';
+import React, { createContext, useReducer,useEffect } from 'react';
 
 const CartContext = createContext();
 export default CartContext
@@ -32,6 +32,10 @@ const cartReducer = (state, action) => {
         ...state,
         items: state.items.filter(item => item.id !== action.payload),
       };
+
+    case 'LOAD_CART':
+      return { ...state, items: action.payload };
+
     case 'INCREASE_QUANTITY':
       return {
         ...state,
@@ -51,6 +55,11 @@ const cartReducer = (state, action) => {
               : item
           ).filter(item => item.quantity > 0), // Remove items with quantity 0
         };
+      case 'EMPTY_CART':
+          return {
+            ...state,
+            items: [],
+          };
     default:
       return state;
   }
@@ -58,6 +67,16 @@ const cartReducer = (state, action) => {
 
 export const CartProvider = ({ children }) => {
   const [state, dispatch] = useReducer(cartReducer, { items: [] });
+  useEffect(() => {
+    const savedCart = localStorage.getItem('cart');
+    if (savedCart) {
+      dispatch({ type: 'LOAD_CART', payload: JSON.parse(savedCart) });
+    }
+  }, []);
+  useEffect(() => {
+    localStorage.setItem('cart', JSON.stringify(state.items));
+  }, [state.items]);
+
 
   return (
     <CartContext.Provider value={{ state, dispatch }}>

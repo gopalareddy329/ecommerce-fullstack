@@ -1,5 +1,5 @@
 import  { useEffect, useState } from 'react'
-//import API_BASE from '../utlis/api'
+import {API_BASE} from '../utlis/api'
 
 const ProductsFetch = (url) => {
     const [data,setData]=useState([])
@@ -11,7 +11,7 @@ const ProductsFetch = (url) => {
         const signal = abortController.signal;
         const fetchData = async() =>{
             try{
-                const res= await fetch(url,signal)
+                const res= await fetch(API_BASE+url,signal)
                 const response = await res.json()
                 setData(response);
                 
