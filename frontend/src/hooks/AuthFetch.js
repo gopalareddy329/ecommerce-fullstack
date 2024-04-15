@@ -19,16 +19,20 @@ const AuthFetch = (authToken,url) => {
               }
             },signal)
             const response=await res.json()
-            
-            setData(response)
-            
+            if(res.ok){
+              setData(response)
+            }
+            if(response?.code ==="token_not_valid"){
+              throw new Error('token_not_valid');
+            }
+      
         }catch(err){
             if (err.name === 'AbortError') {
                 console.log('Request was aborted');
                 return;
             }
             setError(err)
-            console.log("Error",(err))
+            
         }
         finally{
             setLoading(false)

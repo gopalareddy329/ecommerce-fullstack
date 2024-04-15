@@ -15,15 +15,15 @@ const OutLet = () => {
   },[user])
 
   return (
-    <div>
+    <div className=''>
         <Navbar/>
          <Toast />
-            
 
             <div className='min-h-screen pt-[5rem] md:pt-[7rem]'>
                     <Outlet /> 
             </div>
-        <Footer/>
+         <Footer/>
+        
     </div>
   )
 }

@@ -4,9 +4,12 @@ import AuthFetch from '../../hooks/AuthFetch'
 import AuthContext from '../../context/AuthContext'
 import Products from '../../components/products/Products'
 const ForYouPage = () => {
-  const {authToken} =useContext(AuthContext)
+  const {authToken,logoutUser} =useContext(AuthContext)
 
   const {data,loading,error}=AuthFetch(authToken,"/predict_user/30")
+  if(error){
+    logoutUser()
+  }
  
     
   return (

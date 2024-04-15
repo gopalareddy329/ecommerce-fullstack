@@ -25,6 +25,7 @@ export const AuthProvider = ({children}) =>{
                 body:JSON.stringify({username:e.target.email.value,password:e.target.password.value})
             })
             let data = await response.json()
+           
             if(response.ok){
                 
                 setAuthToken(data)
@@ -34,7 +35,7 @@ export const AuthProvider = ({children}) =>{
                 return null
             }
             else{
-                throw new Error(data.detail || 'Invalid credentials');
+                throw new Error(data || 'Invalid credentials');
             }
             
         }catch(err){

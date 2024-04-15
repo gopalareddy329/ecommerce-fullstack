@@ -12,6 +12,10 @@ import  OutLet  from './components/outLet/OutLet';
 import Cart from './pages/cartPage/Cart';
 import ProductView from './pages/productView/ProductView';
 import ForYouPage from './pages/forYouPage/ForYouPage';
+import SearchPage from './pages/searchPage/SearchPage';
+import AdminPanel from './pages/adminPanel/AdminPanel';
+
+
 const App = () => {
   return (
     <Router>
@@ -24,9 +28,15 @@ const App = () => {
 
                       
                         <Route path="/" index element={<Home/>} />
-                        <Route path="/products/:id" index element={<ProductView/>} />
+                        <Route path="/products/:id"  element={<ProductView/>} />
+                        <Route path="/admin"  element={<AdminPanel/>} />
+                        <Route path="/admin/addproduct"  element={<AdminPanel/>} />
+                        <Route path="/admin/removeproduct"  element={<AdminPanel/>} />
+                        <Route path="/admin/headerproduct"  element={<AdminPanel/>} />
+                        <Route path="/search/:query"  element={<SearchPage/>} />
                         <Route path="/foryou" element={<PrivateRoute Component={<ForYouPage/>} /> } />
                         <Route path="/cart" element={<PrivateRoute Component={<Cart/>} /> } />
+    
 
                   </Route>
           </Routes>
