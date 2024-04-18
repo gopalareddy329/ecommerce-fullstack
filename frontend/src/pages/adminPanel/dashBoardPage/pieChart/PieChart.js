@@ -3,10 +3,10 @@ import { PieChart as Pie} from 'react-minimal-pie-chart';
 import React from 'react'
 import Legend from '../../../../components/legend/Legend';
 
-var data=[]
+
 
 const PieChart = ({metaData}) => {
-  console.log(metaData)
+  var data=[]
     metaData.data.filter((item,key)=>{
         data.push({
           title:metaData.legendLabels[key],

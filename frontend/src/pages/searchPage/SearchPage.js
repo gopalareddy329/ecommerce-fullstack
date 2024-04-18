@@ -8,6 +8,7 @@ const SearchPage = () => {
     const {query}=useParams()
     const [selectCategory,setSelectCategory]=useState(null)
     const {data}=ProductsFetch("/search_product/"+query+"?category="+selectCategory)
+    
     const [categorys,setCategorys]=useState(null)
     
     useEffect(() => {

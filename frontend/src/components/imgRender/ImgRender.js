@@ -16,27 +16,28 @@ const ImgRender = ({src,alt,className}) => {
 
     <div className="w-full h-full">
             {isLoading && (
-            <div className={' w-full h-full ' +className}>
-                <div className={'rounded-[12px] w-full h-full min-h-[300px]  skeleton '}>
+            <div className={' w-full h-full ' }>
+                <div className={'rounded-[12px] w-full min-h-[300px] h-full   skeleton '}>
                     <div className={'flex flex-col ' }>
-                        <div className='w-full h-full mb-[10px] '></div>
-                        <div className='h-full  '></div>
+                        <div className='w-full h-full mb-[10px] skeleton '></div>
+                        <div className='h-full  skeleton'></div>
                     </div>
                 </div>
             </div>
         )}
-
-
-          {!isLoading && (
-            <LazyLoadImage 
+        <LazyLoadImage 
             onLoad={handleImageLoad}
             onError={(e)=>(changeImage(e))}
             alt={alt} 
             src={src} 
             effect="blur"
-            className={className || ""}
+            className={(!isLoading && className) || "h-0 w-0"}
             />
-          )}
+
+
+     
+            
+    
     </div>
   )
 }

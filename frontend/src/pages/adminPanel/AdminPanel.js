@@ -42,10 +42,10 @@ const AdminPage = () => {
   };
 
   return (
-    <div className='bg-gray-50 h-full'>
+    <div className='bg-gray-50 h-full'  >
      
       <div className='min-h-screen overflow-y-hidden'>
-        <div className={'absolute top-0 z-10 h-[130vh] bg-white pt-[8rem] w-fit min-w-[50px] border-r '}>
+        <div className={'absolute top-0 z-10 min-h-[130vh] h-full bg-white pt-[8rem] w-fit min-w-[50px] border-r '}>
           {openMenu ? (
             <div className={'flex flex-col text-[20px] ' + changeClass}>
               <div className='flex items-end justify-end w-[95%] mb-5 '>

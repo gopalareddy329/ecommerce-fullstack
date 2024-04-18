@@ -29,10 +29,10 @@ const App = () => {
                       
                         <Route path="/" index element={<Home/>} />
                         <Route path="/products/:id"  element={<ProductView/>} />
-                        <Route path="/admin"  element={<AdminPanel/>} />
-                        <Route path="/admin/addproduct"  element={<AdminPanel/>} />
-                        <Route path="/admin/removeproduct"  element={<AdminPanel/>} />
-                        <Route path="/admin/headerproduct"  element={<AdminPanel/>} />
+                        <Route path="/admin" element={<PrivateRoute Component={<AdminPanel/>} /> }/>
+                        <Route path="/admin/addproduct"  element={<PrivateRoute Component={<AdminPanel/>} /> } />
+                        <Route path="/admin/removeproduct" element={<PrivateRoute Component={<AdminPanel/>} /> } />
+                        <Route path="/admin/headerproduct" element={<PrivateRoute Component={<AdminPanel/>} /> } />
                         <Route path="/search/:query"  element={<SearchPage/>} />
                         <Route path="/foryou" element={<PrivateRoute Component={<ForYouPage/>} /> } />
                         <Route path="/cart" element={<PrivateRoute Component={<Cart/>} /> } />

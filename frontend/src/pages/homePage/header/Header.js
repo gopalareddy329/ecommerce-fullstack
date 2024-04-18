@@ -1,9 +1,13 @@
 import React from 'react'
 import ContentWrapper from '../../../components/contentWrapper/ContentWrapper'
+import ProductFetch from '../../../hooks/ProductsFetch'
+import {Link} from 'react-router-dom'
 
 const Header = ({catrgorys,setCategory}) => {
+  const {data}=ProductFetch('/get_header')
+  console.log(data)
   return (
-    <div className="">
+    <div>
       <ContentWrapper className="bg-white p-4 md:w-[95%] w-full mx-auto rounded-lg shadow-md">
   
 
@@ -15,11 +19,12 @@ const Header = ({catrgorys,setCategory}) => {
                         ))}
                       
                       </ul>
+                      
                     
                 </div>
-                <div className="text-gray-600 ">
-                  <img alt="header" className='md:aspect-[4/2] aspect-[4/3] object-cover' src="https://assets-global.website-files.com/5b5729421aca332c60585f78/62f41942e8da7967a4964400_ecommerce-product-pages.webp"/>
-                </div>
+                <Link to={`/products/${data?.product_product_id}`}>
+                  <img alt="header" className='md:aspect-[4/2] aspect-[4/3] object-cover' src={data?.image_link}/>
+                </Link>
           </div>
           </ContentWrapper>
       </div>

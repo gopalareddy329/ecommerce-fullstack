@@ -1,13 +1,15 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import Img from '../../../components/imgRender/ImgRender'
 import { FaRupeeSign } from "react-icons/fa";
 import StarRating from '../../../components/rating/StarRating';
 import { Link } from 'react-router-dom';
 const ProductsList = ({data}) => {
+    
   return (
     <div className='p-2'>
         {data?.result?.map((item,index)=>(
         <Link to={`/products/${item?.product_id}`}  key={index} className='h-[300px] border-b border-solid border-1 my-5'>
+    
             <div className='flex md:gap-2'>
                 <div className='w-[70%] min-w-[300px] max-w-[400px]  '>
                     <Img className="p-8 max-w-[400px]  w-full  rounded-t-lg  h-[250px] object-contain" alt={item?.title} src={item?.thumbnail || item?.image_link }  />
