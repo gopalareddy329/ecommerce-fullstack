@@ -256,7 +256,6 @@ def add_products(request):
         if result:
             user=User.objects.get(username="srm")
             product=Product.objects.create(name=name,product_id=str(uuid_pro),category=category,price=float(price),discount_percentage=float(discount_percentage),rating=float(rating),rating_count=int(rating_count),description=description,image_link=image_link)
-            Purchase.objects.create(product=product,user=user,quantity=1)
             if header and header_image:
 
                 HeaderImage.objects.create(product=product,image_link=header_image)
@@ -315,7 +314,7 @@ def find_similar_products(new_description, num_similar=10):
         new_description_vec = tfidf_vectorizer.transform([des])
         similarity_scores = cosine_similarity(new_description_vec, tfidf_matrix)[0]
         similarity_scores=np.array([score for score in similarity_scores ])
-        similar_indices = similarity_scores.argsort()[-num_similar:][::-1]
+        similar_indices = similarity_scores.argsort()[-(num_similar+1):-1][::-1]
         similar_products = product_indices.iloc[similar_indices]
         similar_products_global.extend(similar_products["id"].tolist())
   
@@ -331,11 +330,11 @@ def find_similar_products(new_description, num_similar=10):
 @permission_classes([IsManager])
 def get_graph_data(request):
     try:
-        data=pd.read_csv("/Users/gopalareddy/Desktop/all_python/ml_train/cosine/test.csv")
-        avg=pd.read_csv("/Users/gopalareddy/Desktop/all_python/ml_train/cosine/avg_rating.csv")
-        hist=pd.read_csv('/Users/gopalareddy/Desktop/all_python/ml_train/cosine/hist1.csv')
-        pie=pd.read_csv('/Users/gopalareddy/Desktop/all_python/ml_train/cosine/pie1.csv')
-        line=pd.read_csv('/Users/gopalareddy/Desktop/all_python/ml_train/cosine/line1.csv')
+        data=pd.read_csv("graphs/test.csv")
+        avg=pd.read_csv("graphs/avg_rating.csv")
+        hist=pd.read_csv('graphs/hist1.csv')
+        pie=pd.read_csv('graphs/pie1.csv')
+        line=pd.read_csv('graphs/line1.csv')
 
         result={
             "result":{

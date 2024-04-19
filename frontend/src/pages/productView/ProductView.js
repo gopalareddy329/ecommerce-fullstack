@@ -17,7 +17,9 @@ function ProductView() {
   const [currentImg,setCurrentImg]=useState(null)
   useEffect(()=>{
     if (!loading && !error && data.result && data.result.image_link ) {
-      data.result.image_link=[data.result.image_link]
+      try{
+        data.result.image_link=data.result?.image_link?.split('||')
+      }catch(err){}
       setCurrentImg(data.result.image_link[0])
     }
   },[data,loading,error])
@@ -74,15 +76,15 @@ function ProductView() {
                 <div className='flex gap-20 max-md:flex-col max-md:justify-center max-md:items-center'>
                    <div className='md:w-[50%] max-md:flex-col flex gap-5 items-center justify-center'>
                       <div className='md:w-[30%] max-md:order-2 max-md:flex'>
-                       {(data.result && Array.isArray(data.result.image_link))&&  data.result.image_link?.map((item,key)=>(
-                            <div className='shadow' onClick={()=>{setCurrentImg(item)}} key={key}>
-                              <ImgRender className='w-[400px] object-fit h-[100px]' src={item} alt={item.title}/>
+                       {(data.result && Array.isArray(data.result?.image_link))&&  data.result.image_link?.map((item,key)=>(
+                            <div className='shadow w-fit h-fit p-2' onClick={()=>{setCurrentImg(item)}} key={key}>
+                              <ImgRender className='hover:scale-[1.3] object-contain w-[200px] h-[200px] block' src={item} alt={item.title}/>
                             </div>
                           ))}
 
                       </div>
                       <div className='md:w-[70%]'>
-                          <ImgRender className='object-fit  min-w-[300px] h-fit min-h-[50px]'  src={currentImg}/>
+                          <ImgRender className='object-fit  min-w-[400px] h-fit min-h-[50px]'  src={currentImg}/>
                       </div>
 
                    </div>

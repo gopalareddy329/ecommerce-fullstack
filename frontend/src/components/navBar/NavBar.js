@@ -56,7 +56,7 @@ const Navbar = () => {
                     <div className='inline-flex whitespace-nowrap gap-5 lg:gap-10 max-md:hidden'>
                         <Link to='/' ><p  className={`hover:text-[#5FD788]  ${isActive==="/" ? "border-black border-b-2 border-solid":""}`} >HOME</p></Link>
                         <Link to="/foryou"><p  className={`hover:text-[#5FD788]  ${isActive==="/foryou" ? "border-black border-b-2 border-solid":""}`} >FOR YOU</p></Link>
-                        <Link to='/about'><p  className={`hover:text-[#5FD788]  ${isActive==="/about" ? "border-black border-b-2 border-solid":""}`}  >ABOUT</p></Link>
+                        {/*<Link to='/about'><p  className={`hover:text-[#5FD788]  ${isActive==="/about" ? "border-black border-b-2 border-solid":""}`}  >ABOUT</p></Link>*/}
                         {user ? (
                             <Link to="/register" onClick={logoutUser}><p   className={`hover:text-[#5FD788]  `}>LOGOUT</p></Link>
                           ):(

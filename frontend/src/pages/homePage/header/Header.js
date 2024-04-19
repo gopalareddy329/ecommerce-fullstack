@@ -2,13 +2,13 @@ import React from 'react'
 import ContentWrapper from '../../../components/contentWrapper/ContentWrapper'
 import ProductFetch from '../../../hooks/ProductsFetch'
 import {Link} from 'react-router-dom'
-
+import ImgRender from '../../../components/imgRender/ImgRender'
 const Header = ({catrgorys,setCategory}) => {
   const {data}=ProductFetch('/get_header')
   console.log(data)
   return (
     <div>
-      <ContentWrapper className="bg-white p-4 md:w-[95%] w-full mx-auto rounded-lg shadow-md">
+      <ContentWrapper className="bg-white p-4 md:w-[95%] w-full mx-auto rounded-lg   shadow-m" >
   
 
           <div className="flex max-md:flex-col justify-between mt-4 gap-5 max-md:items-center md:p-5">
@@ -22,8 +22,8 @@ const Header = ({catrgorys,setCategory}) => {
                       
                     
                 </div>
-                <Link to={`/products/${data?.product_product_id}`}>
-                  <img alt="header" className='md:aspect-[4/2] aspect-[4/3] object-cover' src={data?.image_link}/>
+                <Link className='w-full' to={`/products/${data?.product_product_id}`}>
+                <div class="w-full h-full md:aspect-[4/2] aspect-[4/3] bg-cover bg-center" style={{backgroundImage: `url('${data.image_link}')`}}></div>
                 </Link>
           </div>
           </ContentWrapper>

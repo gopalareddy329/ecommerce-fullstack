@@ -53,7 +53,7 @@ const AdminPage = () => {
               </div>
               <Link to="/admin" className={'rounded-xl  p-5 border-b w-full max-w-[400px] mx-auto '+ (isActive==="/admin" && "bg-red-500  text-white") }>Dashboard</Link>
               <Link to="/admin/addproduct" className={'rounded-xl  p-5 border-b w-full max-w-[400px] mx-auto '+ (isActive==="/admin/addproduct" && "bg-red-500  text-white") }>AddProduct</Link>
-              <Link to="/admin/removeproduct" className={'rounded-xl  p-5 border-b w-full max-w-[400px] mx-auto '+ (isActive==="/admin/removeproduct" && "bg-red-500  text-white") }>RemoveProducts</Link>
+              {/*<Link to="/admin/removeproduct" className={'rounded-xl  p-5 border-b w-full max-w-[400px] mx-auto '+ (isActive==="/admin/removeproduct" && "bg-red-500  text-white") }>RemoveProducts</Link>*/}
               <Link to="/admin/headerproduct" className={'rounded-xl  p-5 border-b w-full max-w-[400px] mx-auto '+ (isActive==="/admin/headerproduct" && "bg-red-500  text-white") }>HeaderProducts</Link>
             </div>
           ) : (

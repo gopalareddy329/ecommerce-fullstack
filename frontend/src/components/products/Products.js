@@ -11,9 +11,9 @@ const Products = ({data,error,loading}) => {
   
   return (
     <div>
-      <ContentWrapper>
+      <ContentWrapper className="mx-auto ">
 
-            <div className='text-black  mx-auto flex flex-wrap justify-center  gap-5'>
+            <div className='text-black  mx-auto container flex flex-wrap   gap-5'>
               {loading  && <Card  loading={loading} numItems={30} />}
              
                   {data && data?.map((item,key) => (
